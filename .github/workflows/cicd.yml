@@ -8,17 +8,18 @@ jobs:
   build-deploy:
     runs-on: self-hosted
 
-    env:
-      KUBECONFIG: 'C:\Users\shiva\.kube\config'
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Build Docker Image
-        run: docker build -t devops-lab-app ./app
+        run: docker build -t devops-app:latest ./app
+
+      - name: Load Image into Minikube
+        run: minikube.exe image load devops-app:latest
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yml
-          kubectl apply -f k8s/service.yml
+          kubectl.exe apply -f k8s/deployment.yml
+          kubectl.exe apply -f k8s/service.yml
+          kubectl.exe rollout status deployment/devops-app
