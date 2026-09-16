@@ -13,13 +13,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker Image
-        run: docker build -t devops-app:latest ./app
+        run: docker build -t devops-lab-app:latest ./app
 
       - name: Load Image into Minikube
-        run: minikube.exe image load devops-app:latest
+        run: minikube.exe image load devops-lab-app:latest
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl.exe apply -f k8s/deployment.yml
-          kubectl.exe apply -f k8s/service.yml
-          kubectl.exe rollout status deployment/devops-app
+          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f k8s/service.yml
+          kubectl rollout status deployment/devops-app
